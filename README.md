@@ -56,5 +56,3 @@ You also need to provide an .env file with following variables:
 ### Acknowledgements
 
 Partially inspired by https://github.com/Chaithi/Discord-Dice-Roller-Bot
-
-https://github.com/Chaithi/Discord-Dice-Roller-Bot
