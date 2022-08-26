@@ -5,11 +5,11 @@ A Discord bot for rolling dice, written in Python. Has optional sound effect sup
 
 - [discord.py](https://github.com/Rapptz/discord.py)
 - [python-dotenv](https://github.com/theskumar/python-dotenv)
-  
+
   Optional:
 - [FFmpeg](https://github.com/FFmpeg/FFmpeg) (only for sound effects).
 
-You also need to provide an .env file with following variables:
+You need to provide an .env file with following variables:
 
     DISCORD_TOKEN="YOUR_DISCORD_BOT_TOKEN"
     DICE_SOUND_PATH="PATH_TO_SOUND_FILE"
