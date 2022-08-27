@@ -20,7 +20,7 @@ You need to provide an .env file with following variables:
 
 **!roll**/**!r** - make a basic/World of Darkness dice roll. Examples:
 - "!roll 2d20" - roll two D20 dice.
-- "!r d4+2d3-1 - roll one D4 die, two D3 dice, add the results together and substract 1.
+- "!r d4+2d3-1 - roll one D4 die, two D3 dice, add the results and substract 1.
 - "!r d9999" - roll a "D9999" die (get a random number between 1 and 9999).
 - "!r 5wod7" - roll 5 World of Darkness d10 dice, set threshold to 7.
 - "!r 6wodx8" - roll 6 World of Darkness d10 dice, set threshold to 8, make 10s explode.
@@ -33,17 +33,17 @@ You need to provide an .env file with following variables:
 **!mut** - make a Mutants:Year Zero dice roll. Example:
 - "!mut 5b+4g+1s+3n" - roll 5 Basic dice, 4 Gear dice, 1 Skill die and 3 Negative dice. 
 
-**!adv** - roll a D100 with advantage, according to Call of Cthulhu 7th ed. rules (3d10).
+**!adv** - roll a D100 with advantage according to Call of Cthulhu 7th ed. rules (3d10).
 
-**!dis** - roll a D100 with disadvantage, according to Call of Cthulhu 7th ed. rules (3d10).
+**!dis** - roll a D100 with disadvantage according to Call of Cthulhu 7th ed. rules (3d10).
 
 ### Configuration
 
 **!unsort** - display individual dice in multiple-die rolls in the order they were rolled, as opposed to sorting them from highest to lowest.
 
-**!sort** - sort individual dice from the highest value down, when displaying roll results (default behaviour).
+**!sort** - sort individual dice from the highest value down when displaying roll results (default behaviour).
 
-**!silent** - stop playing a sound effect when rolling dice.
+**!silent** - stop playing a sound effect after rolling dice.
 
 **!loud** - try to play a sound effect after each roll (default).
 
