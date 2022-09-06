@@ -1,6 +1,25 @@
 # roll-them-bones
 A Discord bot for rolling dice, written in Python. Has optional sound effect support. Supports specific rules of several RPG systems (currently World of Darkness, Call of Cthulhu, Shadowrun and Mutants: Year Zero).
 
+## Creating your own Discord bot
+
+You can refer to any of the manuals online. [Here](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/) is a good one.
+
+To make full use of this bot's functions, you will need to give it following permissions:
+
+**Needed to roll and display dice (core)**
+- Read messages/View channels
+- Send messages
+- Mention everyone
+
+**Needed for !delete command**
+- Manage messages
+- Read message history
+
+**Need for dice sounds/effects**
+- Connect
+- Speak
+
 ## Running requirements
 
 - [discord.py](https://github.com/Rapptz/discord.py)
