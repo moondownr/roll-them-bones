@@ -37,6 +37,10 @@ You need to provide an .env file with following variables:
 
 **!dis** - roll a D100 with disadvantage according to Call of Cthulhu 7th ed. rules (3d10).
 
+### Deleting messages
+**!delete**/**!del** - delete a given number of messages from the channel chat history, starting from the latest one before this command. The **!delete** command itself will also be deleted from history, but is not counted. Example:
+- "!del 10" - deletes 10 previous messages from the text channel as well as the "!del 10" message. 
+
 ### Configuration
 
 **!unsort** - display individual dice in multiple-die rolls in the order they were rolled, as opposed to sorting them from highest to lowest.
@@ -52,6 +56,7 @@ You need to provide an .env file with following variables:
 **!join**/**!j**: join the issuer of the command in a voice channel.
 
 **!leave**/**!l**: leave the voice channel.
+
 
 ### Acknowledgements
 
