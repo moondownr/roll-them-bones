@@ -39,7 +39,7 @@ You need to provide an .env file with following variables:
 
 ### Deleting messages
 **!delete**/**!del** - delete a given number of messages from the channel chat history, starting from the latest one before this command. The **!delete** command itself will also be deleted from history, but is not counted. Example:
-- "!del 10" - deletes 10 previous messages from the text channel as well as the "!del 10" message. 
+- "!del 10" - deletes 10 previous messages from the text channel, as well as the "!del 10" message. 
 
 ### Configuration
 
