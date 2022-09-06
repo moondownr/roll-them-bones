@@ -321,4 +321,16 @@ async def dis(ctx):
 	await ctx.send(f"{ctx.author.mention} rolled **{a}**, **{b}**, and **{c}**. Their result is **{rollresult}**!")
 	await dicesound (ctx)
 
+@bot.command(name='delete', aliases=['del'])
+async def delete(ctx, number:int):
+	if (is_num(number) is False):
+		await ctx.send(f"Wrong expression: {number} is not a number")
+	else:
+		messages = []
+		channel = ctx.message.channel
+		async for message in channel.history(limit=number+1):
+			messages.append(message)
+		await channel.delete_messages(messages)
+		await ctx.send(f"Deleted {number} message(s). This message will self-destruct in 5s",delete_after=5)
+		
 bot.run(token)
