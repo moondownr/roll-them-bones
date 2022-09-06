@@ -35,7 +35,7 @@ To make full use of this bot's functions, you will need to give it following per
 - Speak
 
 ## Running requirements
-
+- Python 3.8+
 - [discord.py](https://github.com/Rapptz/discord.py)
 - [python-dotenv](https://github.com/theskumar/python-dotenv)
 
