@@ -11,7 +11,7 @@ https://discord.com/api/oauth2/authorize?client_id=971918847957434428&permission
 
 This instance is provided for testing purposes. 100% uptime is not guaranteed. Performance might suffer under load.
 
-The way it currently is, this instance will stop working after reaching 100 servers. After that it will either need to be reviewed and whitelisted by Discord or rewritten to not use Message Content Intent. If and when it'll get there, I'll figure something out.
+The way it currently is, this instance will stop working after reaching 100 servers. After that it will either need to be reviewed and whitelisted by Discord or rewritten to not use Message Content Intent. If and when it gets there, I'll figure something out.
 
 If you tried it and liked it, please consider hosting your own instance (see below).
 
@@ -35,7 +35,7 @@ To make full use of this bot's functions, you will need to give it following per
 - Speak
 
 ## Running requirements
-
+- Python 3.8+
 - [discord.py](https://github.com/Rapptz/discord.py)
 - [python-dotenv](https://github.com/theskumar/python-dotenv)
 
