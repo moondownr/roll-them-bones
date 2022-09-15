@@ -1,5 +1,5 @@
 # roll-them-bones
-A Discord bot for rolling dice, written in Python. Has optional sound effect support. Supports specific rules of several RPG systems (currently World of Darkness, Call of Cthulhu, Shadowrun and Mutants: Year Zero).
+A Discord bot for rolling dice, written in Python. Has optional sound effect support. Supports specific rules of several RPG systems (currently World of Darkness, Call of Cthulhu, Fate, Shadowrun and Mutants: Year Zero).
 
 ## Test the bot
 
@@ -69,6 +69,8 @@ You need to provide an .env file with following variables:
 **!adv** - roll a D100 with advantage according to Call of Cthulhu 7th ed. rules (3d10).
 
 **!dis** - roll a D100 with disadvantage according to Call of Cthulhu 7th ed. rules (3d10).
+
+**!fate**/**!f** - roll 4 Fate/Fudge dice.
 
 ### Deleting messages
 **!delete**/**!del** - delete a given number of messages from the channel's chat history, starting from the latest one before this command. The **!delete** command itself will also be deleted from history, but is not counted. Example:
