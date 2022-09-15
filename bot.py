@@ -162,6 +162,23 @@ def shadowrun(num_of_dice, xpld):
 			results = (f"**HITS**:{hits}\n**ONES**:{ones}\n{explodes} dice exploded!\n{everyroll}")
 	return results
 
+# Calculate Fate dicerolls
+def fateroll():
+	results, rollsum = 0, 0
+	everyroll = []
+	sides = ["-", " ", "+"]
+	for x in range(4):
+		roll = random.choice(sides)
+		if roll == "+":
+			rollsum = int(rollsum)+1
+		elif roll == "-":
+			rollsum = int(rollsum)-1
+		everyroll.append(roll)
+	if rollsum > 0:
+		rollsum = "+{rollsum}"
+	results = (f" **{rollsum}** {everyroll}")
+	return results
+
 # Plays a sound effect after each roll
 async def dicesound(ctx):
 	if dice_sound_on == True:
@@ -289,6 +306,12 @@ async def mut(ctx, roll: str):
 			sub = x.split('n')
 			result += mutroll(sub[0],"NEGATIVE")
 	await ctx.send(f"{ctx.author.mention} rolled{result}")
+	await dicesound (ctx)
+
+# Command to roll Fate dice
+@bot.command(name='fate', aliases=['f'])
+async def fate(ctx):
+	await ctx.send(f"{ctx.author.mention} rolled{fateroll()}")
 	await dicesound (ctx)
 
 # Command to roll Call of Cthulhu dice with advantage (lesser of two D00 and one D10)
