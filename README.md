@@ -53,7 +53,7 @@ You need to provide an .env file with following variables:
 
 **!roll**/**!r** - make a basic/World of Darkness dice roll. Examples:
 - "!roll 2d20" - roll two D20 dice.
-- "!r d4+2d3-1 - roll one D4 die, two D3 dice, add the results and substract 1.
+- "!r d4+2d3-1" - roll one D4 die, two D3 dice, add the results and substract 1.
 - "!r d9999" - roll a "D9999" die (get a random number between 1 and 9999).
 - "!r 5wod7" - roll 5 World of Darkness d10 dice, set threshold to 7.
 - "!r 6wodx8" - roll 6 World of Darkness d10 dice, set threshold to 8, make 10s explode.
