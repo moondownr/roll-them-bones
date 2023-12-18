@@ -10,8 +10,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Provide the token in the .env file
+# Provide token and guild ID in the .env file
 token = os.getenv('DISCORD_TOKEN')
+guildid = os.getenv('GUILD_ID')
 # Requires FFMpeg to work. Change to False to turn off.
 dice_sound_on = True
 # Provide the path to the sound of rolling dice (or any other sound file you like). Takes mp3|wav|flac|ogg|most of other formats. Has no effect if "dice_sound_off = False". 
@@ -22,8 +23,13 @@ sort_dice = True
 #Next two lines are needed if you are using discord.py 2.* or later. Connected to the recent changes in the Discord API and intents. If your bot reaches 100 servers, this will need to be approved by Discord.
 intents = discord.Intents.all()
 intents.members = True
-
 bot = commands.Bot(command_prefix="!",intents=intents)
+
+@bot.event 
+async def on_ready():
+    guild = discord.Object(id=guildid)
+    bot.tree.copy_global_to(guild=guild)
+    await bot.tree.sync(guild=guild)
 
 class MyHelpCommand(commands.DefaultHelpCommand):
 	def get_ending_note(self):
@@ -198,7 +204,7 @@ async def dicesound(ctx):
 		return
 
 # Join a voice channel (only needed for sound effects)
-@bot.command(name='join', aliases=['j'], brief='Join voice channel', help='Joins the issuer\'s voice channel. Only needed to play sound effects.')
+@bot.hybrid_command(name='join', aliases=['j'], brief='Join voice channel', help='Joins the issuer\'s voice channel. Only needed to play sound effects.')
 async def join(ctx):
 	if not ctx.message.author.voice:
 		await ctx.send("Join you where, **{}**?".format(ctx.message.author.name))
@@ -208,51 +214,53 @@ async def join(ctx):
 		if ctx.message.guild.voice_client:
 			if ctx.message.guild.voice_client.channel == channel:
 				await ctx.send("I am already here.")
+				return
 			else:
 				await ctx.message.guild.voice_client.disconnect()
-				await channel.connect()
 		else:
 			await channel.connect()
+			await ctx.send("I have arrived.")
 
 # Leave the voice channel
-@bot.command(name='leave', aliases=['l'], brief='Leave voice channel', help='Leave the voice channel.')
+@bot.hybrid_command(name='leave', aliases=['l'], brief='Leave voice channel', help='Leave the voice channel.')
 async def leave(ctx):
 	voice_client = ctx.message.guild.voice_client
 	if voice_client:
 		await voice_client.disconnect()
+		await ctx.send("I am leaving.")
 	else:
-		await ctx.send("I wasn't even there.")
+		await ctx.send("I can't leave where I am not.")
 
 # Mute the sound effect
-@bot.command(name='silent', brief='Stop making dice sounds', help='Stop playing a sound effect after rolling dice.')
+@bot.hybrid_command(name='silent', brief='Stop making dice sounds', help='Stop playing a sound effect after rolling dice.')
 async def silent(ctx):
 	global dice_sound_on
 	dice_sound_on = False
 	await ctx.send("Dice are now silent.")
 
 # Unmute the sound effect
-@bot.command(name='loud', brief='Start making dice sounds again', help='Try to play a sound effect after each roll.')
+@bot.hybrid_command(name='loud', brief='Start making dice sounds again', help='Try to play a sound effect after each roll.')
 async def silent(ctx):
 	global dice_sound_on
 	dice_sound_on = True
 	await ctx.send("Dice make sound now!")
 
 # Change the setting to arrange dice from highest to lowest
-@bot.command(name='sort', brief='Sort dice from highest down', help='Sort individual dice from the highest value down when displaying roll results.')
+@bot.hybrid_command(name='sort', brief='Sort dice from highest down', help='Sort individual dice from the highest value down when displaying roll results.')
 async def silent(ctx):
 	global sort_dice
 	sort_dice = True
 	await ctx.send("Dice are now arranged from highest to lowest.")
 
 # Change the setting to stop arranging dice from highest to lowest
-@bot.command(name='unsort', brief='Stop sorting dice', help='Display individual dice in the order they were rolled')
+@bot.hybrid_command(name='unsort', brief='Stop sorting dice', help='Display individual dice in the order they were rolled')
 async def silent(ctx):
 	global sort_dice
 	sort_dice = False
 	await ctx.send("Dice are now unsorted.")
 
 # Command to roll generic or WoD dice
-@bot.command(name='roll', aliases=['r'], brief='Make a basic/World of Darkness dice roll', help='"!roll 2d20" - roll two D20 dice.\n'\
+@bot.hybrid_command(name='roll', aliases=['r'], brief='Make a basic/World of Darkness dice roll', help='"!roll 2d20" - roll two D20 dice.\n'\
 	'"!r d4+2d3-1" - roll one D4 die, two D3 dice, add the results and substract 1.\n'\
 	'"!r d9999" - roll a "D9999" die (get a random number between 1 and 9999).\n'\
 	'"!r 5wod7" - roll 5 World of Darkness d10 dice, set threshold to 7.\n'\
@@ -280,25 +288,25 @@ async def roll(ctx, roll: str):
 				diceresult += temp1
 	if sort_dice == True:
 		eachroll.sort(reverse=True)
-	await ctx.send(f"**{diceresult}** ({ctx.author.mention} rolled:{eachroll})")
+	await ctx.send(f"**{diceresult}** ({ctx.author.mention} rolled {roll} and got:{eachroll})")
 	await dicesound (ctx)
 
 # Command to roll Shadowrun dice
-@bot.command(name='sr', brief='Make a Shadowrun dice roll', help='"!sr 12" - roll 12 Shadowrun D6 dice.')
+@bot.hybrid_command(name='sr', brief='Make a Shadowrun dice roll', help='"!sr 12" - roll 12 Shadowrun D6 dice.')
 async def srx(ctx, roll:str):
 	result = shadowrun(roll, 0)
-	await ctx.send(f"({ctx.author.mention} rolled:\n{result})")
+	await ctx.send(f"({ctx.author.mention} rolled {roll} dice and got:\n{result})")
 	await dicesound (ctx)
 
 # Command to roll Shadowrun dice with exploding 6s
-@bot.command(name='srx', brief='Make a Shadowrun dice roll and explode the 6s', help='"!srx 12" - roll 12 Shadowrun D6 dice with exploding sixes.')
+@bot.hybrid_command(name='srx', brief='Make a Shadowrun dice roll and explode the 6s', help='"!srx 12" - roll 12 Shadowrun D6 dice with exploding sixes.')
 async def srx(ctx, roll: str):
 	result = shadowrun(roll, 1)
-	await ctx.send(f"({ctx.author.mention} rolled:\n{result})")
+	await ctx.send(f"({ctx.author.mention} rolled {roll} dice and got:\n{result})")
 	await dicesound (ctx)
 
 # Command to roll Mutant: Year Zero dice
-@bot.command(name='mut', brief='Make a Mutants:Year Zero dice roll', help='"!mut 5b+4g+1s+3n" - roll 5 Basic dice, 4 Gear dice, 1 Skill die and 3 Negative dice.')
+@bot.hybrid_command(name='mut', brief='Make a Mutants:Year Zero dice roll', help='"!mut 5b+4g+1s+3n" - roll 5 Basic dice, 4 Gear dice, 1 Skill die and 3 Negative dice.')
 async def mut(ctx, roll: str):
 	result = ""
 	rolls = roll.split('+')
@@ -315,17 +323,17 @@ async def mut(ctx, roll: str):
 		elif (x.find('n') != -1):
 			sub = x.split('n')
 			result += mutroll(sub[0],"NEGATIVE")
-	await ctx.send(f"{ctx.author.mention} rolled{result}")
+	await ctx.send(f"{ctx.author.mention} rolled:\n{result}")
 	await dicesound (ctx)
 
 # Command to roll Fate dice
-@bot.command(name='fate', aliases=['f'], brief='Make a Fate dice roll', help='Roll 4 Fate/Fudge dice.')
+@bot.hybrid_command(name='fate', aliases=['f'], brief='Make a Fate dice roll', help='Roll 4 Fate/Fudge dice.')
 async def fate(ctx):
 	await ctx.send(f"{ctx.author.mention} rolled{fateroll()}")
 	await dicesound (ctx)
 
 # Command to roll Call of Cthulhu dice with advantage (lesser of two D00 and one D10)
-@bot.command(name='adv', brief='Make a Call of Cthulhu roll with advantage', help='Rolls 1D10 and 2D00s. Combines a D10 with each of the D00s'\
+@bot.hybrid_command(name='adv', brief='Make a Call of Cthulhu roll with advantage', help='Rolls 1D10 and 2D00s. Combines a D10 with each of the D00s'\
 	' into 2D100. Keeps a lower result.')
 async def adv(ctx):
 	eachroll = []
@@ -341,7 +349,7 @@ async def adv(ctx):
 	await dicesound (ctx)
 
 # Command to roll Call of Cthulhu dice with disadvantage (higher of two D00 and one D10)
-@bot.command(name='dis', brief='Make a Call of Cthulhu roll with disadvantage', help='Rolls 1D10 and 2D00s. Combines a D10 with each of the D00s'\
+@bot.hybrid_command(name='dis', brief='Make a Call of Cthulhu roll with disadvantage', help='Rolls 1D10 and 2D00s. Combines a D10 with each of the D00s'\
 	' into 2D100. Keeps a higher result.')
 async def dis(ctx):
 	eachroll = []
@@ -357,7 +365,7 @@ async def dis(ctx):
 	await dicesound (ctx)
 
 # Command to delete a given number of messages from the chat history
-@bot.command(name='delete', aliases=['del'], brief='Delete a given number of messages', help='Delete a given number of messages from history,'\
+@bot.hybrid_command(name='delete', aliases=['del'], brief='Delete a given number of messages', help='Delete a given number of messages from history,'\
 	' starting from the latest one before this command. The "!delete" command itself will also be deleted from history, but is not counted. Example:\n'\
 	'"!del 10" - deletes 10 previous messages from the text channel, as well as the "!del 10" message.')
 async def delete(ctx, number:int):
